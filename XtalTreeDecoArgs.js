@@ -82,14 +82,20 @@ export const XtalTreeDecoArgs = {
                     });
                     let count = 1;
                     sectionChildren.forEach(child => {
-                        child.style.order = count.toString();
+                        const count$ = count.toString();
+                        child.style.order = count$;
+                        child.tabIndex = count$;
                         count++;
                     });
-                    if (recursive) {
+                    //if (recursive) {
+                    if(!this._skipRecSort){
                         this.querySelectorAll('details').forEach(details => {
+                            details._skipRecSort = true;
                             details.sortDir = newVal;
                         });
                     }
+
+                    //}
             }
         }
     }
