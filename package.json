@@ -9,15 +9,15 @@
   },
   "dependencies": {
     "xtal-element": "0.0.59",
-    "trans-render": "0.0.111"
+    "trans-render": "0.0.112",
+    "xtal-deco": "0.0.5"
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "2.2.10",
     "jiife": "0.0.12",
     "tape": "4.10.2",
     "@types/tape": "4.2.33",
-    "xtal-test": "0.0.18",
-    "xtal-deco": "0.0.4"
+    "xtal-test": "0.0.18"
   },
   "repository": {
     "type": "git",
