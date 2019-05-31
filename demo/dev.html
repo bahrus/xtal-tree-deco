@@ -7,35 +7,39 @@
     <title>Document</title>
 </head>
 <body>
-    <div>
+    <div id="container">
         <style>
-            #directory details>section{
+            details>section{
                 margin-left:20px;
                 display:flex;
                 flex-direction:column;
             }
 
-            #directory .match{
+            .match{
                 font-weight: 800;
             }
-
+            #container>details{
+                height:50vw;
+                overflow:scroll;
+            }
             
         </style>
-        <xtal-sip><script nomodule>["xtal-fetch-req", "p-d-r", "xtal-tree-deco"]</script></xtal-sip>
+        <xtal-sip><script nomodule>["p-d", "xtal-tree-deco"]</script></xtal-sip>
         <button>Expand All</button>
-        <p-d-r on=click to=details prop=allExpanded val=target skip-init></p-d-r>
+        <p-d on=click to=details prop=allExpanded val=target skip-init></p-d>
         <button>Collapse All</button>
-        <p-d-r on=click to=details prop=allCollapsed val=target skip-init></p-d-r>
+        <p-d on=click to=details prop=allCollapsed val=target skip-init></p-d>
         <label for=search>Search</label>
         <input disabled autocomplete=off id=search>
-        <p-d-r on=input to=details prop=searchString val=target.value skip-init></p-d-r>
+        <p-d on=input to=details prop=searchString val=target.value skip-init></p-d>
         <br>
         <button data-dir=asc>Sort Ascending</button>
-        <p-d-r on=click to=details prop=sortDir val=target.dataset.dir skip-init></p-d-r>
+        <p-d on=click to=details prop=sortDir val=target.dataset.dir skip-init></p-d>
         <button data-dir=desc>Sort Descending</button>
-        <p-d-r on=click to=details prop=sortDir val=target.dataset.dir skip-init></p-d-r>
-        <xtal-tree-deco where-target-selector="details"></xtal-tree-deco>
-        <xtal-fetch-req p-d-if="p-d-r" id="directory" fetch href="directory.html" as="text" insert-results></xtal-fetch-req>
+        <p-d on=click to=details prop=sortDir val=target.dataset.dir skip-init></p-d>
+        <xtal-tree-deco></xtal-tree-deco>
+        <!-- https://www.filamentgroup.com/lab/html-includes/ -->
+        <iframe style="display:none" src="directory.html" onload="this.before((this.contentDocument.body||this.contentDocument).children[0]);this.remove()"></iframe>
         <script defer src="https://cdn.jsdelivr.net/npm/es-module-shims@0.2.7/dist/es-module-shims.js"></script>
         <script type="importmap-shim">
         {
@@ -44,9 +48,7 @@
                 "trans-render/": "../node_modules/trans-render/",
                 "xtal-deco/": "https://cdn.jsdelivr.net/npm/xtal-deco@0.0.4/",
                 "xtal-sip": "https://cdn.jsdelivr.net/npm/xtal-sip@0.0.87/xtal-sip.js",
-                "xtal-fetch-req": "https://cdn.jsdelivr.net/npm/xtal-fetch@0.0.58/xtal-fetch-req.js",
                 "p-d": "https://cdn.jsdelivr.net/npm/p-et-alia@0.0.4/p-d.js",
-                "p-d-r": "https://cdn.jsdelivr.net/npm/p-et-alia@0.0.4/p-d-r.js",
                 "xtal-tree-deco": "../xtal-tree-deco.js"
             }
         }
