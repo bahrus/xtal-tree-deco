@@ -1,6 +1,6 @@
 {
   "name": "xtal-tree-deco",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Add core tree functions to details element",
   "main": "xtal-tree-deco.js",
   "scripts": {
