@@ -24,7 +24,6 @@
             }
             
         </style>
-        <xtal-sip><script nomodule>["p-d", "xtal-tree-deco"]</script></xtal-sip>
         <button>Expand All</button>
         <p-d on=click to=details prop=allExpanded val=target skip-init></p-d>
         <button>Collapse All</button>
@@ -47,14 +46,13 @@
                 "xtal-element/": "../node_modules/xtal-element/",
                 "trans-render/": "../node_modules/trans-render/",
                 "xtal-deco/": "../node_modules/xtal-deco/",
-                "xtal-sip": "https://cdn.jsdelivr.net/npm/xtal-sip@0.0.90/xtal-sip.js",
-                "p-d": "https://cdn.jsdelivr.net/npm/p-et-alia@0.0.4/p-d.js",
-                "xtal-tree-deco": "../xtal-tree-deco.js"
+                "p-et-alia/": "../node_modules/p-et-alia/"
             }
         }
         </script>
         <script type="module-shim">
-            import 'xtal-sip';
+            import '../xtal-tree-deco.js';
+            import 'p-et-alia/p-d.js';
         </script>
 
     </div>

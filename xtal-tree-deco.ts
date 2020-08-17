@@ -1,7 +1,7 @@
-import {define} from 'trans-render/define.js';
-import {decorate, } from 'trans-render/decorate.js';
+import {decorate, } from 'trans-render/plugins/decorate.js';
 import {XtalDeco} from 'xtal-deco/xtal-deco.js';
-import { DecorateArgs } from '../trans-render/init.d.js';
+import { DecorateArgs } from 'trans-render/types.d.js';
+import {define} from 'xtal-element/xtal-latx.js';
 function getStrVal(el: HTMLElement) : string {
     switch (el.localName) {
         // case 'div':
@@ -12,13 +12,11 @@ function getStrVal(el: HTMLElement) : string {
             return el.textContent as string;
     }
 }
-export class XtalTreeDeco extends XtalDeco{
-    static get is(){
-        return 'xtal-tree-deco';
-    }
+export class XtalTreeDeco extends XtalDeco {
+    static is =  'xtal-tree-deco';
     constructor(){
         super();
-        this._decoratorFn = (target: HTMLElement) => {
+        this.decoratorFn = (target: HTMLElement) => {
             decorate(target, {
                 propDefs: {
                     allExpanded: false,

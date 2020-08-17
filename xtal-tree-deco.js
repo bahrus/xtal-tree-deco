@@ -1,6 +1,6 @@
-import { define } from 'trans-render/define.js';
-import { decorate, } from 'trans-render/decorate.js';
+import { decorate, } from 'trans-render/plugins/decorate.js';
 import { XtalDeco } from 'xtal-deco/xtal-deco.js';
+import { define } from 'xtal-element/xtal-latx.js';
 function getStrVal(el) {
     switch (el.localName) {
         // case 'div':
@@ -12,12 +12,9 @@ function getStrVal(el) {
     }
 }
 export class XtalTreeDeco extends XtalDeco {
-    static get is() {
-        return 'xtal-tree-deco';
-    }
     constructor() {
         super();
-        this._decoratorFn = (target) => {
+        this.decoratorFn = (target) => {
             decorate(target, {
                 propDefs: {
                     allExpanded: false,
@@ -124,4 +121,5 @@ export class XtalTreeDeco extends XtalDeco {
         };
     }
 }
+XtalTreeDeco.is = 'xtal-tree-deco';
 define(XtalTreeDeco);
