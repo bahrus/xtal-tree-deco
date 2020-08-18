@@ -51,17 +51,15 @@ export class XtalTreeDeco extends XtalDeco {
                                     h2.allExpanded = false;
                                 break;
                             case 'searchString':
+                                const t0 = performance.now();
                                 if (newVal === null || newVal === '')
                                     return;
                                 h2.allCollapsed = true;
                                 const newValLC = newVal.toLowerCase();
-                                console.log(newValLC);
                                 const tNodes = Array.from(h.querySelectorAll('div, summary'));
-                                console.log(tNodes.length);
                                 tNodes.forEach(el => {
                                     if (el.textContent.toLowerCase().indexOf(newValLC) > -1) {
                                         el.classList.add('match');
-                                        console.log('addedMatch');
                                     }
                                     else {
                                         el.classList.remove('match');
@@ -76,6 +74,8 @@ export class XtalTreeDeco extends XtalDeco {
                                 //if(!h.matches('.match')){
                                 h.querySelector('.match')?.scrollIntoView();
                                 //}
+                                const t1 = performance.now();
+                                console.log(t1 - t0 + ' milliseconds');
                                 break;
                             case 'sortDir':
                                 if (newVal === null)
