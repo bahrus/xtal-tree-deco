@@ -25,17 +25,17 @@
             
         </style>
         <button>Expand All</button>
-        <p-d on=click to=details prop=allExpanded val=target skip-init></p-d>
+        <p-d on=click to=details prop=allExpanded val=target skip-init m=1></p-d>
         <button>Collapse All</button>
-        <p-d on=click to=details prop=allCollapsed val=target skip-init></p-d>
+        <p-d on=click to=details prop=allCollapsed val=target skip-init m=1></p-d>
         <label for=search>Search</label>
         <input disabled autocomplete=off id=search>
-        <p-d on=input to=details prop=searchString val=target.value skip-init></p-d>
+        <p-d on=input to=details prop=searchString val=target.value skip-init m=1></p-d>
         <br>
         <button data-dir=asc>Sort Ascending</button>
-        <p-d on=click to=details prop=sortDir val=target.dataset.dir skip-init></p-d>
+        <p-d on=click to=details prop=sortDir val=target.dataset.dir skip-init m=1></p-d>
         <button data-dir=desc>Sort Descending</button>
-        <p-d on=click to=details prop=sortDir val=target.dataset.dir skip-init></p-d>
+        <p-d on=click to=details prop=sortDir val=target.dataset.dir skip-init m=1></p-d>
         <xtal-tree-deco></xtal-tree-deco>
         <!-- https://www.filamentgroup.com/lab/html-includes/ -->
         <iframe style="display:none" src="directory.html" onload="this.before((this.contentDocument.body||this.contentDocument).children[0]);this.remove()"></iframe>

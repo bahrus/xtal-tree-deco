@@ -53,34 +53,29 @@ export class XtalTreeDeco extends XtalDeco {
                             case 'searchString':
                                 if (newVal === null || newVal === '')
                                     return;
+                                h2.allCollapsed = true;
                                 const newValLC = newVal.toLowerCase();
-                                h.querySelectorAll('section>div').forEach(div => {
-                                    if (div.textContent.toLowerCase().indexOf(newValLC) > -1) {
-                                        div.classList.add('match');
+                                console.log(newValLC);
+                                const tNodes = Array.from(h.querySelectorAll('div, summary'));
+                                console.log(tNodes.length);
+                                tNodes.forEach(el => {
+                                    if (el.textContent.toLowerCase().indexOf(newValLC) > -1) {
+                                        el.classList.add('match');
+                                        console.log('addedMatch');
                                     }
                                     else {
-                                        div.classList.remove('match');
+                                        el.classList.remove('match');
                                     }
                                 });
-                                const summary = h.querySelector('summary');
-                                if (summary.textContent.toLowerCase().indexOf(newValLC) > -1) {
-                                    summary.classList.add('match');
-                                    h2.allCollapsed = true;
-                                }
-                                else {
-                                    summary.classList.remove('match');
-                                    // if (recursive) {
-                                    //     this.querySelectorAll('details').forEach(details => {
-                                    //         details.searchString = newValLC;
-                                    //     });
-                                    //     if (this.querySelector('.match')) {
-                                    //         this.setAttribute('open', '');
-                                    //     }
-                                    //     else {
-                                    //         this.removeAttribute('open');
-                                    //     }
-                                    // }
-                                }
+                                Array.from(h.querySelectorAll('details')).forEach(detailsEl => {
+                                    if (detailsEl.querySelector('.match') !== null)
+                                        detailsEl.open = true;
+                                });
+                                if (h.querySelector('.match') !== null)
+                                    h2.open = true;
+                                //if(!h.matches('.match')){
+                                h.querySelector('.match')?.scrollIntoView();
+                                //}
                                 break;
                             case 'sortDir':
                                 if (newVal === null)
