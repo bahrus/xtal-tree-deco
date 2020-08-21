@@ -28,18 +28,18 @@
             } */
         </style>
         <button>Expand All</button>
-        <p-d on=click to=details prop=allExpanded val=target skip-init m=1></p-d>
+        <p-d on=click to=details prop=allExpanded proxy-id=treeDeco val=target parse-val-as=truthy skip-init m=1></p-d>
         <button>Collapse All</button>
-        <p-d on=click to=details prop=allCollapsed val=target skip-init m=1></p-d>
+        <p-d on=click to=details prop=allCollapsed proxy-id=treeDeco val=target parse-val-as=truthy skip-init m=1></p-d>
         <label for=search>Search</label>
         <input disabled autocomplete=off id=search>
-        <p-d on=input to=details prop=searchString val=target.value skip-init m=1></p-d>
+        <p-d on=input to=details prop=searchString proxy-id=treeDeco val=target.value skip-init m=1></p-d>
         <br>
         <button data-dir=asc>Sort Ascending</button>
-        <p-d on=click to=details prop=sortDir val=target.dataset.dir skip-init m=1></p-d>
+        <p-d on=click to=details prop=sortDir proxy-id=treeDeco val=target.dataset.dir skip-init m=1></p-d>
         <button data-dir=desc>Sort Descending</button>
-        <p-d on=click to=details prop=sortDir val=target.dataset.dir skip-init m=1></p-d>
-        <xtal-tree-deco></xtal-tree-deco>
+        <p-d on=click to=details prop=sortDir proxy-id=treeDeco val=target.dataset.dir skip-init m=1></p-d>
+        <xtal-tree-deco ish=treeDeco></xtal-tree-deco>
         <!-- https://www.filamentgroup.com/lab/html-includes/ -->
         <iframe style="display:none" src="directory.html" onload="this.before((this.contentDocument.body||this.contentDocument).children[0]);this.remove()"></iframe>
         <script defer src="https://cdn.jsdelivr.net/npm/es-module-shims@0.2.7/dist/es-module-shims.js"></script>

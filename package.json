@@ -10,12 +10,12 @@
   "dependencies": {
     "xtal-element": "0.0.282",
     "trans-render": "0.0.255",
-    "xtal-deco": "0.0.15"
+    "xtal-deco": "0.0.18"
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "2.4.4",
     "xtal-test": "0.0.46",
-    "p-et-alia": "0.0.112"
+    "p-et-alia": "0.0.114"
   },
   "repository": {
     "type": "git",
