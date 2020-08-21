@@ -4,18 +4,13 @@ import { DecorateArgs } from 'trans-render/types.d.js';
 import {define, PropAction} from 'xtal-element/xtal-latx.js';
 function getStrVal(el: HTMLElement) : string {
     switch (el.localName) {
-        // case 'div':
-        //     return el.textContent;
         case 'details':
             return el.querySelector('summary')!.textContent as string;
         default:
             return el.textContent as string;
     }
 }
-const allExpanded = 'allExpanded';
-const allCollapsed = 'allCollapsed';
-const searchString = 'searchString';
-const sortDir = 'sortDir';
+
 
 interface ExtendedHTMLDetailsElement extends HTMLDetailsElement{
     allExpanded: boolean;
