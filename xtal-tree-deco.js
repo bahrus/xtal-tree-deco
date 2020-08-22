@@ -2,18 +2,12 @@ import { XtalDeco } from 'xtal-deco/xtal-deco.js';
 import { define } from 'xtal-element/xtal-latx.js';
 function getStrVal(el) {
     switch (el.localName) {
-        // case 'div':
-        //     return el.textContent;
         case 'details':
             return el.querySelector('summary').textContent;
         default:
             return el.textContent;
     }
 }
-const allExpanded = 'allExpanded';
-const allCollapsed = 'allCollapsed';
-const searchString = 'searchString';
-const sortDir = 'sortDir';
 const init = ({ self }) => {
     self.allExpanded = false;
     self.allCollapsed = false;
@@ -68,33 +62,29 @@ const actions = [
     ({ sortDir, self }) => {
         if (sortDir === null)
             return;
-        const section = self.querySelector('section');
-        const sectionChildren = Array.from(section.children);
-        const one = sortDir === 'asc' ? 1 : -1;
-        const minusOne = sortDir === 'asc' ? -1 : 1;
-        sectionChildren.sort((a, b) => {
-            const lhs = getStrVal(a);
-            const rhs = getStrVal(b);
-            if (lhs < rhs)
-                return minusOne;
-            if (lhs > rhs)
-                return one;
-            return 0;
+        Array.from(self.querySelectorAll('section')).forEach(section => {
+            const sectionChildren = Array.from(section.children);
+            const one = sortDir === 'asc' ? 1 : -1;
+            const minusOne = sortDir === 'asc' ? -1 : 1;
+            sectionChildren.sort((a, b) => {
+                const lhs = getStrVal(a);
+                const rhs = getStrVal(b);
+                if (lhs < rhs)
+                    return minusOne;
+                if (lhs > rhs)
+                    return one;
+                return 0;
+            });
+            let count = 1;
+            sectionChildren.forEach(child => {
+                const child2 = child;
+                const count$ = count.toString();
+                child2.style.order = count$;
+                child2.tabIndex = parseInt(count$);
+                count++;
+            });
         });
-        let count = 1;
-        sectionChildren.forEach(child => {
-            const child2 = child;
-            const count$ = count.toString();
-            child2.style.order = count$;
-            child2.tabIndex = parseInt(count$);
-            count++;
-        });
-        // if(!h2._skipRecSort){
-        //     h.querySelectorAll('details').forEach(details => {
-        //         (<any>details)._skipRecSort = true;
-        //         (<any>details).sortDir = newVal;
-        //     });
-        // }
+        //const section = self.querySelector('section') as HTMLTableSectionElement;
     }
 ];
 export class XtalTreeDeco extends XtalDeco {

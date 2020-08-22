@@ -73,33 +73,31 @@ const actions = [
     },
     ({sortDir, self}: ExtendedHTMLDetailsElement) => {
         if (sortDir === null) return;
-        const section = self.querySelector('section') as HTMLTableSectionElement;
-        const sectionChildren = Array.from(section.children);
-        const one = sortDir === 'asc' ? 1 : -1;
-        const minusOne = sortDir === 'asc' ? -1 : 1;
-        sectionChildren.sort((a: any, b: any) => {
-            const lhs = getStrVal(a);
-            const rhs = getStrVal(b);
-            if (lhs < rhs)
-                return minusOne;
-            if (lhs > rhs)
-                return one;
-            return 0;
-        });
-        let count = 1;
-        sectionChildren.forEach(child => {
-            const child2 = child as HTMLElement;
-            const count$ = count.toString();
-            child2.style.order = count$;
-            child2.tabIndex = parseInt(count$);
-            count++;
-        });
-        // if(!h2._skipRecSort){
-        //     h.querySelectorAll('details').forEach(details => {
-        //         (<any>details)._skipRecSort = true;
-        //         (<any>details).sortDir = newVal;
-        //     });
-        // }
+        Array.from(self.querySelectorAll('section')).forEach(section =>{
+            const sectionChildren = Array.from(section.children);
+            const one = sortDir === 'asc' ? 1 : -1;
+            const minusOne = sortDir === 'asc' ? -1 : 1;
+            sectionChildren.sort((a: any, b: any) => {
+                const lhs = getStrVal(a);
+                const rhs = getStrVal(b);
+                if (lhs < rhs)
+                    return minusOne;
+                if (lhs > rhs)
+                    return one;
+                return 0;
+            });
+            let count = 1;
+            sectionChildren.forEach(child => {
+                const child2 = child as HTMLElement;
+                const count$ = count.toString();
+                child2.style.order = count$;
+                child2.tabIndex = parseInt(count$);
+                count++;
+            });
+        })
+        //const section = self.querySelector('section') as HTMLTableSectionElement;
+        
+        
     }
 ]
 
