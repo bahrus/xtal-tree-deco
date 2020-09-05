@@ -70,56 +70,57 @@ const actions = [
         const t1 = performance.now();
         console.log(t1 - t0 + ' milliseconds');
     },
-    // ({sortDir, self}: ExtendedHTMLDetailsElement) => {
-    //     if (sortDir === null) return;
-    //     Array.from(self.querySelectorAll('section')).forEach(section =>{
-    //         const sectionChildren = Array.from(section.children);
-    //         const one = sortDir === 'asc' ? 1 : -1;
-    //         const minusOne = sortDir === 'asc' ? -1 : 1;
-    //         sectionChildren.sort((a: any, b: any) => {
-    //             const lhs = getStrVal(a);
-    //             const rhs = getStrVal(b);
-    //             if (lhs < rhs)
-    //                 return minusOne;
-    //             if (lhs > rhs)
-    //                 return one;
-    //             return 0;
-    //         });
-    //         let count = 1;
-    //         sectionChildren.forEach(child => {
-    //             const child2 = child as HTMLElement;
-    //             const count$ = count.toString();
-    //             child2.style.order = count$;
-    //             child2.tabIndex = parseInt(count$);
-    //             count++;
-    //         });
-    //     })
-    //     //const section = self.querySelector('section') as HTMLTableSectionElement;
-        
-        
-    // }
+    ({sortDir, self}: any) => {
+        if (sortDir === undefined) return;
+        Array.from(self.querySelectorAll('section')).forEach((section: any) =>{
+            const sectionChildren = Array.from(section.children);
+            const one = sortDir === 'asc' ? 1 : -1;
+            const minusOne = sortDir === 'asc' ? -1 : 1;
+            sectionChildren.sort((a: any, b: any) => {
+                const lhs = getStrVal(a);
+                const rhs = getStrVal(b);
+                if (lhs < rhs)
+                    return minusOne;
+                if (lhs > rhs)
+                    return one;
+                return 0;
+            });
+            let count = 1;
+            sectionChildren.forEach(child => {
+                const child2 = child as HTMLElement;
+                const count$ = count.toString();
+                child2.style.order = count$;
+                child2.tabIndex = parseInt(count$);
+                count++;
+            });
+        })
+    }
 ]
 
 export const treePropActions = [ ...propActions,
-    ({self, allExpanded, mainProxy}: XtalTreeDeco) => {
+    ({allExpanded, mainProxy}: XtalTreeDeco) => {
         if(mainProxy === undefined) return;
         (<any>mainProxy).allExpanded = allExpanded;
     },
-    ({self, allCollapsed, mainProxy}: XtalTreeDeco) => {
+    ({allCollapsed, mainProxy}: XtalTreeDeco) => {
         if(mainProxy === undefined) return;
         (<any>mainProxy).allCollapsed = allCollapsed;
     },
-    ({self, searchString, mainProxy}: XtalTreeDeco) => {
+    ({searchString, mainProxy}: XtalTreeDeco) => {
         if(mainProxy === undefined) return;
         (<any>mainProxy).searchString = searchString;
+    },
+    ({sortDir, mainProxy}: XtalTreeDeco) => {
+        if(mainProxy === undefined) return;
+        (<any>mainProxy).sortDir = sortDir;
     }
 ] as PropAction<any>[];
 
 export class XtalTreeDeco<ExtendedHTMLDetailsElement = HTMLDetailsElement> extends XtalDeco {
     static is =  'xtal-tree-deco';
-    static attributeProps: any = ({allExpanded, allCollapsed, searchString}: XtalTreeDeco) => ({
+    static attributeProps: any = ({allExpanded, allCollapsed, searchString, sortDir}: XtalTreeDeco) => ({
         bool: [allExpanded, allCollapsed],
-        str: [searchString]
+        str: [searchString, sortDir]
     } as AttributeProps);
     init = init as PropAction; //TODO -- figure out how to de-any-fy
     actions = actions as PropAction<any>[];
@@ -129,6 +130,7 @@ export class XtalTreeDeco<ExtendedHTMLDetailsElement = HTMLDetailsElement> exten
     allExpanded: boolean | undefined;
     allCollapsed: boolean | undefined;
     searchString: string | undefined;
+    sortDir: string | undefined;
 }
 define(XtalTreeDeco);
 

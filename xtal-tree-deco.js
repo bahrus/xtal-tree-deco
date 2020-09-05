@@ -66,21 +66,52 @@ const actions = [
         const t1 = performance.now();
         console.log(t1 - t0 + ' milliseconds');
     },
+    ({ sortDir, self }) => {
+        if (sortDir === undefined)
+            return;
+        Array.from(self.querySelectorAll('section')).forEach((section) => {
+            const sectionChildren = Array.from(section.children);
+            const one = sortDir === 'asc' ? 1 : -1;
+            const minusOne = sortDir === 'asc' ? -1 : 1;
+            sectionChildren.sort((a, b) => {
+                const lhs = getStrVal(a);
+                const rhs = getStrVal(b);
+                if (lhs < rhs)
+                    return minusOne;
+                if (lhs > rhs)
+                    return one;
+                return 0;
+            });
+            let count = 1;
+            sectionChildren.forEach(child => {
+                const child2 = child;
+                const count$ = count.toString();
+                child2.style.order = count$;
+                child2.tabIndex = parseInt(count$);
+                count++;
+            });
+        });
+    }
 ];
-export const treePropActions = [...propActions, ({ self, allExpanded, mainProxy }) => {
+export const treePropActions = [...propActions, ({ allExpanded, mainProxy }) => {
         if (mainProxy === undefined)
             return;
         mainProxy.allExpanded = allExpanded;
     },
-    ({ self, allCollapsed, mainProxy }) => {
+    ({ allCollapsed, mainProxy }) => {
         if (mainProxy === undefined)
             return;
         mainProxy.allCollapsed = allCollapsed;
     },
-    ({ self, searchString, mainProxy }) => {
+    ({ searchString, mainProxy }) => {
         if (mainProxy === undefined)
             return;
         mainProxy.searchString = searchString;
+    },
+    ({ sortDir, mainProxy }) => {
+        if (mainProxy === undefined)
+            return;
+        mainProxy.sortDir = sortDir;
     }
 ];
 export class XtalTreeDeco extends XtalDeco {
@@ -93,8 +124,8 @@ export class XtalTreeDeco extends XtalDeco {
     }
 }
 XtalTreeDeco.is = 'xtal-tree-deco';
-XtalTreeDeco.attributeProps = ({ allExpanded, allCollapsed, searchString }) => ({
+XtalTreeDeco.attributeProps = ({ allExpanded, allCollapsed, searchString, sortDir }) => ({
     bool: [allExpanded, allCollapsed],
-    str: [searchString]
+    str: [searchString, sortDir]
 });
 define(XtalTreeDeco);
