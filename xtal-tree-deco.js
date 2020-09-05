@@ -1,4 +1,4 @@
-import { XtalDeco } from 'xtal-deco/xtal-deco.js';
+import { XtalDeco, propActions } from 'xtal-deco/xtal-deco.js';
 import { define } from 'xtal-element/xtal-latx.js';
 function getStrVal(el) {
     switch (el.localName) {
@@ -8,6 +8,9 @@ function getStrVal(el) {
             return el.textContent;
     }
 }
+// interface ExtendedHTMLDetailsElement extends HTMLDetailsElement{
+//     self: ExtendedHTMLDetailsElement;
+// }
 const init = ({ self }) => {
     self.allExpanded = false;
     self.allCollapsed = false;
@@ -37,13 +40,23 @@ const actions = [
         self.allExpanded = false;
     },
 ];
+export const treePropActions = [...propActions, ({ self, allExpanded, mainProxy }) => {
+        if (mainProxy === undefined)
+            return;
+        mainProxy.allExpanded = allExpanded;
+    }
+];
 export class XtalTreeDeco extends XtalDeco {
     constructor() {
         super(...arguments);
         this.init = init; //TODO -- figure out how to de-any-fy
         this.actions = actions;
         this.virtualProps = ['allExpanded', 'allCollapsed'];
+        this.propActions = treePropActions;
     }
 }
 XtalTreeDeco.is = 'xtal-tree-deco';
+XtalTreeDeco.attributeProps = ({ allExpanded }) => ({
+    bool: [allExpanded]
+});
 define(XtalTreeDeco);

@@ -1,7 +1,7 @@
 import {decorate, } from 'trans-render/plugins/decorate.js';
-import {XtalDeco} from 'xtal-deco/xtal-deco.js';
+import {XtalDeco, propActions } from 'xtal-deco/xtal-deco.js';
 import { DecorateArgs } from 'trans-render/types.d.js';
-import {define, PropAction} from 'xtal-element/xtal-latx.js';
+import {define, PropAction, AttributeProps} from 'xtal-element/xtal-latx.js';
 function getStrVal(el: HTMLElement) : string {
     switch (el.localName) {
         case 'details':
@@ -12,13 +12,10 @@ function getStrVal(el: HTMLElement) : string {
 }
 
 
-interface ExtendedHTMLDetailsElement extends HTMLDetailsElement{
-    allExpanded: boolean;
-    allCollapsed: boolean;
-    searchString: string | null;
-    sortDir: 'asc' | 'desc' | null;
-    self: ExtendedHTMLDetailsElement;
-}
+// interface ExtendedHTMLDetailsElement extends HTMLDetailsElement{
+
+//     self: ExtendedHTMLDetailsElement;
+// }
 
 const init = ({self}: ExtendedHTMLDetailsElement) => {
     self.allExpanded = false;
@@ -103,11 +100,24 @@ const actions = [
     // }
 ]
 
-export class XtalTreeDeco<ExtendedHTMLDetailsElement> extends XtalDeco {
+export const treePropActions = [ ...propActions,
+    ({self, allExpanded, mainProxy}: XtalTreeDeco) => {
+        if(mainProxy === undefined) return;
+        (<any>mainProxy).allExpanded = allExpanded;
+    }
+]
+
+export class XtalTreeDeco<ExtendedHTMLDetailsElement = HTMLDetailsElement> extends XtalDeco {
     static is =  'xtal-tree-deco';
+    static attributeProps: any = ({allExpanded}: XtalTreeDeco) => ({
+        bool: [allExpanded]
+    } as AttributeProps);
     init = init as PropAction; //TODO -- figure out how to de-any-fy
     actions = actions as PropAction<any>[];
     virtualProps = ['allExpanded', 'allCollapsed'];
+
+    propActions = treePropActions;
+    allExpanded: boolean | undefined;
 }
 define(XtalTreeDeco);
 

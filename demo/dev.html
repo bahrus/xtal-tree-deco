@@ -28,9 +28,9 @@
             } */
         </style>
         <button>Expand All</button>
-        <p-d on=click to=details prop=allExpanded proxy-id=treeDeco val=target parse-val-as=truthy skip-init m=1></p-d>
+        <p-d on=click to=[-all-expanded] val=target parse-val-as=truthy skip-init m=1></p-d>
         <button>Collapse All</button>
-        <p-d on=click to=details prop=allCollapsed proxy-id=treeDeco val=target parse-val-as=truthy skip-init m=1></p-d>
+        <p-d on=click to=[-all-collapsed] val=target parse-val-as=truthy skip-init m=1></p-d>
         <label for=search>Search</label>
         <input disabled autocomplete=off id=search>
         <p-d on=input to=details prop=searchString proxy-id=treeDeco val=target.value skip-init m=1></p-d>
@@ -39,7 +39,7 @@
         <p-d on=click to=details prop=sortDir proxy-id=treeDeco val=target.dataset.dir skip-init m=1></p-d>
         <button data-dir=desc>Sort Descending</button>
         <p-d on=click to=details prop=sortDir proxy-id=treeDeco val=target.dataset.dir skip-init m=1></p-d>
-        <xtal-tree-deco proxy-id=treeDeco where-target-selector=details></xtal-tree-deco>
+        <xtal-tree-deco -all-expanded -all-collapsed where-target-selector=details></xtal-tree-deco>
         <!-- https://www.filamentgroup.com/lab/html-includes/ -->
         <iframe style="display:none" src="directory.html" onload="this.before((this.contentDocument.body||this.contentDocument).children[0]);this.remove()"></iframe>
         <script defer src="https://cdn.jsdelivr.net/npm/es-module-shims@0.2.7/dist/es-module-shims.js"></script>
