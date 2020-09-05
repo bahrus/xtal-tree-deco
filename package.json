@@ -10,7 +10,7 @@
   "dependencies": {
     "xtal-element": "0.0.295",
     "trans-render": "0.0.255",
-    "xtal-deco": "0.0.22"
+    "xtal-deco": "0.0.24"
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "2.4.4",

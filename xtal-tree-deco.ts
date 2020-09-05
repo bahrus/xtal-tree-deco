@@ -17,7 +17,7 @@ function getStrVal(el: HTMLElement) : string {
 //     self: ExtendedHTMLDetailsElement;
 // }
 
-const init = ({self}: ExtendedHTMLDetailsElement) => {
+const init = ({self}: any) => {
     self.allExpanded = false;
     self.allCollapsed = false;
     self.searchString = null;
@@ -25,7 +25,7 @@ const init = ({self}: ExtendedHTMLDetailsElement) => {
 };
 
 const actions = [
-    ({allExpanded, self} : ExtendedHTMLDetailsElement) => {
+    ({allExpanded, self} : any) => {
         if(!allExpanded) return;
         if (allExpanded) {
             const t0 = performance.now();
@@ -36,40 +36,40 @@ const actions = [
         }
         self.allCollapsed = false;
     },
-    ({allCollapsed, self}: ExtendedHTMLDetailsElement) => {
+    ({allCollapsed, self}: any) => {
         if(!allCollapsed) return;
         if (allCollapsed) {
             self.removeAttribute('open');
-            self.querySelectorAll('details').forEach(details => details.removeAttribute('open'));
+            self.querySelectorAll('details').forEach((details: any) => details.removeAttribute('open'));
         }
         self.allExpanded = false;
     },
-    // ({searchString, self}: ExtendedHTMLDetailsElement) => {
-    //     const t0 = performance.now();
-    //     if (searchString === null || searchString === '')
-    //         return;
-    //     self.allCollapsed = true;
-    //     const newValLC = searchString.toLowerCase();
-    //     const tNodes = Array.from(self.querySelectorAll('div, summary'));
-    //     tNodes.forEach(el => {
-    //         if (el.textContent!.toLowerCase().indexOf(newValLC) > -1) {
-    //             el.classList.add('match');
-    //         }
-    //         else {
-    //             el.classList.remove('match');
-    //         }
-    //     });
-    //     Array.from(self.querySelectorAll('details')).forEach(detailsEl =>{
-    //         if(detailsEl.querySelector('.match') !== null) detailsEl.open = true;
-    //     });
-    //     const firstMatch = self.querySelector('.match');
-    //     if(firstMatch !== null){
-    //         self.open = true;
-    //         firstMatch.scrollIntoView();
-    //     }
-    //     const t1 = performance.now();
-    //     console.log(t1 - t0 + ' milliseconds');
-    // },
+    ({searchString, self}: any) => {
+        const t0 = performance.now();
+        if (searchString === undefined || searchString === null || searchString === '')
+            return;
+        self.allCollapsed = true;
+        const newValLC = searchString.toLowerCase();
+        const tNodes = Array.from(self.querySelectorAll('div, summary'));
+        tNodes.forEach((el: any) => {
+            if (el.textContent!.toLowerCase().indexOf(newValLC) > -1) {
+                el.classList.add('match');
+            }
+            else {
+                el.classList.remove('match');
+            }
+        });
+        Array.from(self.querySelectorAll('details')).forEach((detailsEl: any) =>{
+            if(detailsEl.querySelector('.match') !== null) detailsEl.open = true;
+        });
+        const firstMatch = self.querySelector('.match');
+        if(firstMatch !== null){
+            self.open = true;
+            firstMatch.scrollIntoView();
+        }
+        const t1 = performance.now();
+        console.log(t1 - t0 + ' milliseconds');
+    },
     // ({sortDir, self}: ExtendedHTMLDetailsElement) => {
     //     if (sortDir === null) return;
     //     Array.from(self.querySelectorAll('section')).forEach(section =>{
@@ -104,25 +104,31 @@ export const treePropActions = [ ...propActions,
     ({self, allExpanded, mainProxy}: XtalTreeDeco) => {
         if(mainProxy === undefined) return;
         (<any>mainProxy).allExpanded = allExpanded;
-    }
+    },
     ({self, allCollapsed, mainProxy}: XtalTreeDeco) => {
         if(mainProxy === undefined) return;
         (<any>mainProxy).allCollapsed = allCollapsed;
+    },
+    ({self, searchString, mainProxy}: XtalTreeDeco) => {
+        if(mainProxy === undefined) return;
+        (<any>mainProxy).searchString = searchString;
     }
 ] as PropAction<any>[];
 
 export class XtalTreeDeco<ExtendedHTMLDetailsElement = HTMLDetailsElement> extends XtalDeco {
     static is =  'xtal-tree-deco';
-    static attributeProps: any = ({allExpanded, allCollapsed}: XtalTreeDeco) => ({
-        bool: [allExpanded, allCollapsed]
+    static attributeProps: any = ({allExpanded, allCollapsed, searchString}: XtalTreeDeco) => ({
+        bool: [allExpanded, allCollapsed],
+        str: [searchString]
     } as AttributeProps);
     init = init as PropAction; //TODO -- figure out how to de-any-fy
     actions = actions as PropAction<any>[];
-    virtualProps = ['allExpanded', 'allCollapsed'];
+    virtualProps = ['allExpanded', 'allCollapsed', 'searchString'];
 
     propActions = treePropActions;
     allExpanded: boolean | undefined;
     allCollapsed: boolean | undefined;
+    searchString: string | undefined;
 }
 define(XtalTreeDeco);
 

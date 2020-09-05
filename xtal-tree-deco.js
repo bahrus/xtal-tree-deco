@@ -35,9 +35,36 @@ const actions = [
             return;
         if (allCollapsed) {
             self.removeAttribute('open');
-            self.querySelectorAll('details').forEach(details => details.removeAttribute('open'));
+            self.querySelectorAll('details').forEach((details) => details.removeAttribute('open'));
         }
         self.allExpanded = false;
+    },
+    ({ searchString, self }) => {
+        const t0 = performance.now();
+        if (searchString === undefined || searchString === null || searchString === '')
+            return;
+        self.allCollapsed = true;
+        const newValLC = searchString.toLowerCase();
+        const tNodes = Array.from(self.querySelectorAll('div, summary'));
+        tNodes.forEach((el) => {
+            if (el.textContent.toLowerCase().indexOf(newValLC) > -1) {
+                el.classList.add('match');
+            }
+            else {
+                el.classList.remove('match');
+            }
+        });
+        Array.from(self.querySelectorAll('details')).forEach((detailsEl) => {
+            if (detailsEl.querySelector('.match') !== null)
+                detailsEl.open = true;
+        });
+        const firstMatch = self.querySelector('.match');
+        if (firstMatch !== null) {
+            self.open = true;
+            firstMatch.scrollIntoView();
+        }
+        const t1 = performance.now();
+        console.log(t1 - t0 + ' milliseconds');
     },
 ];
 export const treePropActions = [...propActions, ({ self, allExpanded, mainProxy }) => {
@@ -49,6 +76,11 @@ export const treePropActions = [...propActions, ({ self, allExpanded, mainProxy 
         if (mainProxy === undefined)
             return;
         mainProxy.allCollapsed = allCollapsed;
+    },
+    ({ self, searchString, mainProxy }) => {
+        if (mainProxy === undefined)
+            return;
+        mainProxy.searchString = searchString;
     }
 ];
 export class XtalTreeDeco extends XtalDeco {
@@ -56,12 +88,13 @@ export class XtalTreeDeco extends XtalDeco {
         super(...arguments);
         this.init = init; //TODO -- figure out how to de-any-fy
         this.actions = actions;
-        this.virtualProps = ['allExpanded', 'allCollapsed'];
+        this.virtualProps = ['allExpanded', 'allCollapsed', 'searchString'];
         this.propActions = treePropActions;
     }
 }
 XtalTreeDeco.is = 'xtal-tree-deco';
-XtalTreeDeco.attributeProps = ({ allExpanded, allCollapsed }) => ({
-    bool: [allExpanded, allCollapsed]
+XtalTreeDeco.attributeProps = ({ allExpanded, allCollapsed, searchString }) => ({
+    bool: [allExpanded, allCollapsed],
+    str: [searchString]
 });
 define(XtalTreeDeco);
