@@ -105,12 +105,16 @@ export const treePropActions = [ ...propActions,
         if(mainProxy === undefined) return;
         (<any>mainProxy).allExpanded = allExpanded;
     }
-]
+    ({self, allCollapsed, mainProxy}: XtalTreeDeco) => {
+        if(mainProxy === undefined) return;
+        (<any>mainProxy).allCollapsed = allCollapsed;
+    }
+] as PropAction<any>[];
 
 export class XtalTreeDeco<ExtendedHTMLDetailsElement = HTMLDetailsElement> extends XtalDeco {
     static is =  'xtal-tree-deco';
-    static attributeProps: any = ({allExpanded}: XtalTreeDeco) => ({
-        bool: [allExpanded]
+    static attributeProps: any = ({allExpanded, allCollapsed}: XtalTreeDeco) => ({
+        bool: [allExpanded, allCollapsed]
     } as AttributeProps);
     init = init as PropAction; //TODO -- figure out how to de-any-fy
     actions = actions as PropAction<any>[];
@@ -118,6 +122,7 @@ export class XtalTreeDeco<ExtendedHTMLDetailsElement = HTMLDetailsElement> exten
 
     propActions = treePropActions;
     allExpanded: boolean | undefined;
+    allCollapsed: boolean | undefined;
 }
 define(XtalTreeDeco);
 

@@ -44,6 +44,11 @@ export const treePropActions = [...propActions, ({ self, allExpanded, mainProxy 
         if (mainProxy === undefined)
             return;
         mainProxy.allExpanded = allExpanded;
+    },
+    ({ self, allCollapsed, mainProxy }) => {
+        if (mainProxy === undefined)
+            return;
+        mainProxy.allCollapsed = allCollapsed;
     }
 ];
 export class XtalTreeDeco extends XtalDeco {
@@ -56,7 +61,7 @@ export class XtalTreeDeco extends XtalDeco {
     }
 }
 XtalTreeDeco.is = 'xtal-tree-deco';
-XtalTreeDeco.attributeProps = ({ allExpanded }) => ({
-    bool: [allExpanded]
+XtalTreeDeco.attributeProps = ({ allExpanded, allCollapsed }) => ({
+    bool: [allExpanded, allCollapsed]
 });
 define(XtalTreeDeco);
