@@ -8,14 +8,14 @@
     "serve": "node node_modules/xtal-test/serve.js"
   },
   "dependencies": {
-    "xtal-element": "0.0.282",
+    "xtal-element": "0.0.295",
     "trans-render": "0.0.255",
-    "xtal-deco": "0.0.20"
+    "xtal-deco": "0.0.21"
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "2.4.4",
     "xtal-test": "0.0.46",
-    "p-et-alia": "0.0.114"
+    "p-et-alia": "0.0.115"
   },
   "repository": {
     "type": "git",
